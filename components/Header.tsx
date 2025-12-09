@@ -1,14 +1,15 @@
 import React from "react";
 import Container from "./Container";
+import Logo from "./Logo";
 
 const Header = () => {
   return (
     <header className="bg-white py-5">
-      <Containe>
-        {/* Logo */}
+      <Container>
+        <Logo />
         {/* NavButton */}
         {/* NavAdmin */}
-      </Containe>
+      </Container>
     </header>
   );
 };
