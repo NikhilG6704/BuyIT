@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import AddToWishlistButton from "./AddToWishlistButton";
-
 import { Title } from "./ui/text";
 import PriceView from "./PriceView";
 import AddToCartButton from "./AddToCartButton";
@@ -15,14 +14,16 @@ const ProductCard = ({ product }: { product: Product }) => {
     <div className="text-sm border-[1px] border-dark_blue/20 rounded-md bg-white group">
       <div className="relative group overflow-hidden bg-shop_light_bg">
         {product?.images && (
-          <Image
-            src={urlFor(product?.images[0]).url()}
-            alt="ProductImage"
-            loading="lazy"
-            width={700}
-            height={700}
-            className={`w-full h-64 object-contain overflow-hidden transition-transform bg-shop_light_bg hoverEffect duration-500 ${product?.stock !== 0 ? "group-hover:scale-105" : "opacity-50"}`}
-          />
+          <Link href={`/product/${product?.slug?.current}`}>
+            <Image
+              src={urlFor(product?.images[0]).url()}
+              alt="ProductImage"
+              loading="lazy"
+              width={700}
+              height={700}
+              className={`w-full h-64 object-contain overflow-hidden transition-transform bg-shop_light_bg hoverEffect duration-500 ${product?.stock !== 0 ? "group-hover:scale-105" : "opacity-50"}`}
+            />
+          </Link>
         )}
         <AddToWishlistButton product={product} />
         {product?.status === "sale" && (
