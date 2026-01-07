@@ -7,10 +7,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - ButIT Online store",
-    default: "ButIT online store",
+    template: "%s - BuyIT online store",
+    default: "BuyIT online store",
   },
-  description: "ButIT online store, Your one step for shop all your needs",
+  description: "BuyIT online store, Your one step for shop all your needs",
 };
 
 export default function RootLayout({
