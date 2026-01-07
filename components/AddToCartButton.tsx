@@ -5,7 +5,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 interface Props {
-  product: Product;
+  product: Product | null | undefined;
   className?: string;
 }
 
@@ -15,7 +15,7 @@ const AddToCartButton = ({ product, className }: Props) => {
     window.alert("Added to Cart");
   };
   return (
-    <div>
+    <div className="w-full h-12 flex items-center">
       <Button
         onClick={handleAddToCart}
         disabled={isOutOfStock}
