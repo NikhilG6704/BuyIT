@@ -23,7 +23,12 @@ const PriceList = ({ selectedPrice, setSelectedPrice }: Props) => {
         {priceArray?.map((price, index) => (
           <div
             key={index}
-            onClick={() => setSelectedPrice(price?.value)}
+            onClick={() => {
+              const value = price?.value;
+              if (value == null) return;
+
+              setSelectedPrice((prev) => (prev === value ? null : value));
+            }}
             className="flex items-center space-x-2 hover:cursor-pointer"
           >
             <RadioGroupItem

@@ -18,7 +18,12 @@ const BrandList = ({ brands, selectedBrand, setSelectedBrand }: Props) => {
         {brands?.map((brand) => (
           <div
             key={brand?._id}
-            onClick={() => setSelectedBrand(brand?.slug?.current as string)}
+            onClick={() => {
+              const slug = brand?.slug?.current;
+              if (!slug) return;
+
+              setSelectedBrand((prev) => (prev === slug ? null : slug));
+            }}
             className="flex items-center space-x-2 hover:cursor-pointer"
           >
             <RadioGroupItem

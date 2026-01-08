@@ -22,7 +22,10 @@ const CategoryList = ({
         {categories?.map((category) => (
           <div
             onClick={() => {
-              setSelectedCategory(category?.slug?.current as string);
+              const slug = category?.slug?.current;
+              if (!slug) return;
+
+              setSelectedCategory((prev) => (prev === slug ? null : slug));
             }}
             key={category?._id}
             className="flex items-center space-x-2 hover:cursor-pointer"
