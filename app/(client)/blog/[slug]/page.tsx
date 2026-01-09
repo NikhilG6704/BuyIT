@@ -1,9 +1,6 @@
 import Container from "@/components/Container";
 import Title from "@/components/Title";
-import {
-  SINGLE_BLOG_QUERY_RESULT,
-  SINGLE_BLOG_QUERYResult,
-} from "@/sanity.types";
+import { Blog, SINGLE_BLOG_QUERY_RESULT } from "@/sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 import {
   getBlogCategories,
@@ -24,7 +21,7 @@ const SingleBlogPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const blog: SINGLE_BLOG_QUERY_RESULT = await getSingleBlog(slug);
+  const blog = (await getSingleBlog(slug)) as SINGLE_BLOG_QUERY_RESULT;
   if (!blog) return notFound();
 
   return (
@@ -208,7 +205,7 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
               key={index}
               className="text-lightColor flex items-center justify-between text-sm font-medium"
             >
-              <p>{blogcategories[0]?.title}</p>
+              <p>{blogcategories?.[0]?.title}</p>
               <p className="text-darkColor font-semibold">{`(1)`}</p>
             </div>
           ))}
@@ -217,7 +214,7 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
       <div className="border border-lightColor p-5 rounded-md mt-10">
         <Title className="text-base">Latest Blogs</Title>
         <div className="space-y-4 mt-4">
-          {blogs?.map((blog: Blog, index: number) => (
+          {blogs?.map((blog, index) => (
             <Link
               href={`/blog/${blog?.slug?.current}`}
               key={index}
@@ -229,7 +226,7 @@ const BlogLeft = async ({ slug }: { slug: string }) => {
                   alt="blogImage"
                   width={100}
                   height={100}
-                  className="w-16 h-16 rounded-full object-cover border-[1px] border-shop_dark_green/10 group-hover:border-shop_dark_green hoverEffect"
+                  className="w-16 h-16 rounded-full object-cover border border-shop_dark_green/10 group-hover:border-shop_dark_green hoverEffect"
                 />
               )}
               <p className="line-clamp-2 text-sm text-lightColor group-hover:text-shop_dark_green hoverEffect">
