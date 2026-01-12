@@ -301,7 +301,6 @@ export type Category = {
   description?: string;
   range?: number;
   featured?: boolean;
-  productCount?: number;
   image?: {
     asset?: {
       _ref: string;
@@ -495,7 +494,7 @@ export type LATEST_BLOG_QUERY_RESULT = Array<{
     title: string | null;
   }> | null;
   publishedAt?: string;
-  isLatest?: boolean;
+  isLatest: true;
   body?: BlockContent;
 }>;
 
@@ -534,7 +533,7 @@ export type DEAL_PRODUCTS_RESULT = Array<{
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "brand";
   };
-  status?: "hot" | "new" | "sale";
+  status: "hot";
   variant?: "appliances" | "gadget" | "others" | "refrigerators";
   isFeatured?: boolean;
 }>;
