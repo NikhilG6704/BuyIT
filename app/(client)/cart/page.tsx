@@ -74,6 +74,8 @@ const CartPage = () => {
       toast.success("Cart reset successfully");
     }
   };
+
+  const handleCheckout = () => {};
   return (
     <div className="bg-gray-50 pb-52 md:pb-10">
       {isSignedIn ? (
@@ -208,6 +210,8 @@ const CartPage = () => {
                         <Button
                           className="w-full rounded-full font-semibold tracking-wide hoverEffect"
                           size="lg"
+                          disabled={loading}
+                          onClick={handleCheckout}
                         >
                           {loading ? "Processing..." : "Proceed to Checkout"}
                         </Button>
@@ -262,6 +266,34 @@ const CartPage = () => {
                 <div className="md:hidden fixed bottom-0 left-0 w-full bg-white pt-2">
                   <div className="bg-white p-4 rounded-lg border mx-4">
                     <h2>Order Summary</h2>
+                    <div className="space-y-4 ">
+                      <div className="flex items-center justify-between">
+                        <span>SubTotal</span>
+                        <PriceFormatter amount={getSubTotalPrice()} />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>Discount</span>
+                        <PriceFormatter
+                          amount={getSubTotalPrice() - getTotalPrice()}
+                        />
+                      </div>
+                      <Separator />
+                      <div className="flex items-center justify-between font-semibold text-lg">
+                        <span>Total</span>
+                        <PriceFormatter
+                          amount={useStore?.getState().getTotalPrice()}
+                          className="text-lg font-bold text-black"
+                        />
+                      </div>
+                      <Button
+                        className="w-full rounded-full font-semibold tracking-wide hoverEffect"
+                        size="lg"
+                        disabled={loading}
+                        onClick={handleCheckout}
+                      >
+                        {loading ? "Processing..." : "Proceed to Checkout"}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
