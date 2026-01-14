@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  createCheckoutSession,
+  Metadata,
+} from "@/actions/createCheckoutSession";
 import Container from "@/components/Container";
 import EmptyCart from "@/components/EmptyCart";
 import NoAccess from "@/components/NoAccess";
@@ -28,7 +32,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
+// #TODO - Implement Stripe  and complete checkout page 10:54:30
 const CartPage = () => {
   const {
     deleteCartProduct,
@@ -75,7 +79,26 @@ const CartPage = () => {
     }
   };
 
-  const handleCheckout = () => {};
+  const handleCheckout = async () => {
+    setLoading(true);
+    try {
+      const metadata: Metadata = {
+        orderNumber: crypto.randomUUID(),
+        customerName: user?.fullName ?? "Unknown",
+        customerEmail: user?.emailAddresses[0]?.emailAddress ?? "Unknown",
+        clerkUserId: user?.id,
+        address: selectedAddress,
+      };
+      const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      }
+    } catch (error) {
+      console.error("Error creating checkout session: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="bg-gray-50 pb-52 md:pb-10">
       {isSignedIn ? (
