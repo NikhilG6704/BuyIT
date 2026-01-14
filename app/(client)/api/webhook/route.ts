@@ -4,7 +4,7 @@ import { backendClient } from "@/sanity/lib/backendClient";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-// #TODO: update STRIPE_WEBHOOK_SECRET in .env file
+// #TODO: update STRIPE_WEBHOOK_SECRET in .env file around 11:44
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const headersList = await headers();
