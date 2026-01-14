@@ -32,7 +32,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-// #TODO - Implement Stripe  and complete checkout page 10:54:30
+// #TODO - Update Stripe keys and complete checkout page 10:54:30
 const CartPage = () => {
   const {
     deleteCartProduct,
