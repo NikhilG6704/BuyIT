@@ -27,12 +27,12 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import useStore from "@/store";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { Divide, ShoppingBag, Trash } from "lucide-react";
+import { ShoppingBag, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-// #TODO - Update Stripe keys and complete checkout page 10:54:30
+
 const CartPage = () => {
   const {
     deleteCartProduct,
@@ -75,7 +75,7 @@ const CartPage = () => {
     );
     if (confirmed) {
       resetCart();
-      toast.success("Cart reset successfully");
+      toast.success("Cart reset successfully!");
     }
   };
 
@@ -94,7 +94,7 @@ const CartPage = () => {
         window.location.href = checkoutUrl;
       }
     } catch (error) {
-      console.error("Error creating checkout session: ", error);
+      console.error("Error creating checkout session:", error);
     } finally {
       setLoading(false);
     }
@@ -123,7 +123,8 @@ const CartPage = () => {
                             {product?.images && (
                               <Link
                                 href={`/product/${product?.slug?.current}`}
-                                className="border p-0.5 md:p-1 mr-2 rounded-md overflow-hidden group"
+                                className="border p-0.5 md:p-1 mr-2 rounded-md
+                                 overflow-hidden group"
                               >
                                 <Image
                                   src={urlFor(product?.images[0]).url()}
@@ -137,7 +138,7 @@ const CartPage = () => {
                             )}
                             <div className="h-full flex flex-1 flex-col justify-between py-1">
                               <div className="flex flex-col gap-0.5 md:gap-1.5">
-                                <h2 className="text-base font-semibold line-clamp-1 ">
+                                <h2 className="text-base font-semibold line-clamp-1">
                                   {product?.name}
                                 </h2>
                                 <p className="text-sm capitalize">
@@ -163,7 +164,7 @@ const CartPage = () => {
                                       />
                                     </TooltipTrigger>
                                     <TooltipContent className="font-bold">
-                                      Add to Favourite
+                                      Add to Favorite
                                     </TooltipContent>
                                   </Tooltip>
                                   <Tooltip>
@@ -186,7 +187,7 @@ const CartPage = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="flex flex-col items-start justify-between h-30 md:h-44 p-0.5 md:p-1">
+                          <div className="flex flex-col items-start justify-between h-36 md:h-44 p-0.5 md:p-1">
                             <PriceFormatter
                               amount={(product?.price as number) * itemCount}
                               className="font-bold text-lg"
@@ -207,11 +208,11 @@ const CartPage = () => {
                 </div>
                 <div>
                   <div className="lg:col-span-1">
-                    <div className="hidden md:inline-block w-full bg-whi` p-6 rounded-lg border">
+                    <div className="hidden md:inline-block w-full bg-white p-6 rounded-lg border">
                       <h2 className="text-xl font-semibold mb-4">
                         Order Summary
                       </h2>
-                      <div className="space-y-4 ">
+                      <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <span>SubTotal</span>
                           <PriceFormatter amount={getSubTotalPrice()} />
@@ -226,7 +227,7 @@ const CartPage = () => {
                         <div className="flex items-center justify-between font-semibold text-lg">
                           <span>Total</span>
                           <PriceFormatter
-                            amount={useStore?.getState().getTotalPrice()}
+                            amount={getTotalPrice()}
                             className="text-lg font-bold text-black"
                           />
                         </div>
@@ -236,7 +237,7 @@ const CartPage = () => {
                           disabled={loading}
                           onClick={handleCheckout}
                         >
-                          {loading ? "Processing..." : "Proceed to Checkout"}
+                          {loading ? "Please wait..." : "Proceed to Checkout"}
                         </Button>
                       </div>
                     </div>
@@ -289,7 +290,7 @@ const CartPage = () => {
                 <div className="md:hidden fixed bottom-0 left-0 w-full bg-white pt-2">
                   <div className="bg-white p-4 rounded-lg border mx-4">
                     <h2>Order Summary</h2>
-                    <div className="space-y-4 ">
+                    <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <span>SubTotal</span>
                         <PriceFormatter amount={getSubTotalPrice()} />
@@ -304,7 +305,7 @@ const CartPage = () => {
                       <div className="flex items-center justify-between font-semibold text-lg">
                         <span>Total</span>
                         <PriceFormatter
-                          amount={useStore?.getState().getTotalPrice()}
+                          amount={getTotalPrice()}
                           className="text-lg font-bold text-black"
                         />
                       </div>
@@ -314,7 +315,7 @@ const CartPage = () => {
                         disabled={loading}
                         onClick={handleCheckout}
                       >
-                        {loading ? "Processing..." : "Proceed to Checkout"}
+                        {loading ? "Please wait..." : "Proceed to Checkout"}
                       </Button>
                     </div>
                   </div>

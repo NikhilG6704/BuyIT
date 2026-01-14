@@ -1,94 +1,123 @@
-import { Metadata } from "@/actions/createCheckoutSession";
 import stripe from "@/lib/stripe";
 import { backendClient } from "@/sanity/lib/backendClient";
+import { Metadata } from "@/actions/createCheckoutSession";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-// #TODO: update STRIPE_WEBHOOK_SECRET in .env file around 11:44
+
 export async function POST(req: NextRequest) {
   const body = await req.text();
-  const headersList = await headers();
-  const sig = headersList.get("stripe-signature");
+  const sig = (await headers()).get("stripe-signature");
 
   if (!sig) {
     return NextResponse.json(
-      { error: "No Signature found for stripe" },
+      { error: "Missing Stripe signature" },
       { status: 400 }
     );
   }
+
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
-    console.log("Stripe webhook secret is not set");
+    console.error("❌ STRIPE_WEBHOOK_SECRET not set");
     return NextResponse.json(
-      {
-        error: "Stripe webhook secret is not set",
-      },
-      { status: 400 }
+      { error: "Webhook secret not configured" },
+      { status: 500 }
     );
   }
+
   let event: Stripe.Event;
+
   try {
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
-  } catch (error) {
-    console.error("Webhook signature verification failed:", error);
+  } catch (err) {
+    console.error("❌ Stripe webhook verification failed:", err);
     return NextResponse.json(
-      {
-        error: `Webhook Error: ${error}`,
-      },
+      { error: "Invalid webhook signature" },
       { status: 400 }
     );
   }
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    const invoice = session.invoice
-      ? await stripe.invoices.retrieve(session.invoice as string)
-      : null;
 
     try {
-      await createOrderInSanity(session, invoice);
+      await handleCheckoutCompleted(session);
     } catch (error) {
-      console.error("Error creating order in sanity:", error);
+      console.error("❌ Failed processing checkout.session.completed:", error);
       return NextResponse.json(
-        {
-          error: `Error creating order: ${error}`,
-        },
-        { status: 400 }
+        { error: "Webhook processing failed" },
+        { status: 500 }
       );
     }
   }
+
   return NextResponse.json({ received: true });
 }
 
-async function createOrderInSanity(
-  session: Stripe.Checkout.Session,
-  invoice: Stripe.Invoice | null
-) {
+/* -------------------------------------------------------------------------- */
+/*                                CORE LOGIC                                  */
+/* -------------------------------------------------------------------------- */
+
+async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const {
-    id,
+    id: sessionId,
+    metadata,
     amount_total,
     currency,
-    metadata,
     payment_intent,
     total_details,
+    customer,
+    customer_email,
   } = session;
-  const { orderNumber, customerName, customerEmail, clerkUserId, address } =
-    metadata as unknown as Metadata & { address: string };
+
+  if (!metadata) {
+    throw new Error("Missing metadata on Stripe session");
+  }
+
+  const {
+    orderNumber,
+    customerName,
+    customerEmail,
+    clerkUserId,
+    address,
+  } = metadata as unknown as Metadata & { address?: string };
+
   const parsedAddress = address ? JSON.parse(address) : null;
 
-  const lineItemsWithProduct = await stripe.checkout.sessions.listLineItems(
-    id,
-    { expand: ["data.price.product"] }
+  /* -------------------------- IDEMPOTENCY CHECK --------------------------- */
+
+  const existingOrder = await backendClient.fetch(
+    `*[_type == "order" && stripeCheckoutSessionId == $sessionId][0]`,
+    { sessionId }
   );
 
-  // Create Sanity product references and prepare stock updates
-  const sanityProducts = [];
-  const stockUpdates = [];
-  for (const item of lineItemsWithProduct.data) {
-    const productId = (item.price?.product as Stripe.Product)?.metadata?.id;
-    const quantity = item?.quantity || 0;
+  if (existingOrder) {
+    console.log("⚠️ Order already exists, skipping:", sessionId);
+    return existingOrder;
+  }
 
-    if (!productId) continue;
+  /* -------------------------- FETCH LINE ITEMS ----------------------------- */
+
+  const lineItems = await stripe.checkout.sessions.listLineItems(sessionId, {
+    expand: ["data.price.product"],
+  });
+
+  const sanityProducts: Array<{
+    _key: string;
+    product: {
+      _type: "reference";
+      _ref: string;
+    };
+    quantity: number;
+  }> = [];
+  const stockUpdates: { productId: string; quantity: number }[] = [];
+
+  for (const item of lineItems.data) {
+    const product = item.price?.product as Stripe.Product | null;
+    const productId = product?.metadata?.id;
+    const quantity = item.quantity ?? 0;
+
+    if (!productId || quantity <= 0) continue;
 
     sanityProducts.push({
       _key: crypto.randomUUID(),
@@ -98,74 +127,49 @@ async function createOrderInSanity(
       },
       quantity,
     });
+
     stockUpdates.push({ productId, quantity });
   }
-  //   Create order in Sanity
 
-  const order = await backendClient.create({
+  /* ----------------------------- SANITY TX -------------------------------- */
+
+  const tx = backendClient.transaction();
+
+  tx.create({
     _type: "order",
     orderNumber,
-    stripeCheckoutSessionId: id,
+    stripeCheckoutSessionId: sessionId,
     stripePaymentIntentId: payment_intent,
+    stripeCustomerId: customer ?? null,
     customerName,
-    stripeCustomerId: customerEmail,
-    clerkUserId: clerkUserId,
-    email: customerEmail,
+    email: customerEmail ?? customer_email,
+    clerkUserId: clerkUserId ?? null,
     currency,
+    totalPrice: amount_total ? amount_total / 100 : 0,
     amountDiscount: total_details?.amount_discount
       ? total_details.amount_discount / 100
       : 0,
-
     products: sanityProducts,
-    totalPrice: amount_total ? amount_total / 100 : 0,
     status: "paid",
     orderDate: new Date().toISOString(),
-    invoice: invoice
-      ? {
-          id: invoice.id,
-          number: invoice.number,
-          hosted_invoice_url: invoice.hosted_invoice_url,
-        }
-      : null,
     address: parsedAddress
       ? {
+          name: parsedAddress.name,
+          address: parsedAddress.address,
+          city: parsedAddress.city,
           state: parsedAddress.state,
           zip: parsedAddress.zip,
-          city: parsedAddress.city,
-          address: parsedAddress.address,
-          name: parsedAddress.name,
         }
       : null,
   });
 
-  // Update stock levels in Sanity
-
-  await updateStockLevels(stockUpdates);
-  return order;
-}
-
-// Function to update stock levels
-async function updateStockLevels(
-  stockUpdates: { productId: string; quantity: number }[]
-) {
   for (const { productId, quantity } of stockUpdates) {
-    try {
-      // Fetch current stock
-      const product = await backendClient.getDocument(productId);
-
-      if (!product || typeof product.stock !== "number") {
-        console.warn(
-          `Product with ID ${productId} not found or stock is invalid.`
-        );
-        continue;
-      }
-
-      const newStock = Math.max(product.stock - quantity, 0); // Ensure stock does not go negative
-
-      // Update stock in Sanity
-      await backendClient.patch(productId).set({ stock: newStock }).commit();
-    } catch (error) {
-      console.error(`Failed to update stock for product ${productId}:`, error);
-    }
+    tx.patch(productId, (p) =>
+      p.dec({ stock: quantity })
+    );
   }
+
+  await tx.commit();
+
+  console.log("✅ Order + stock successfully committed:", orderNumber);
 }
