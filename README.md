@@ -1,181 +1,130 @@
-This version includes designated placeholders for a **Hero Banner**, **Project Screenshots**, and an **Architecture Diagram**. I have also added a "Preview" section using a table so you can show off both Desktop and Mobile views side-by-side.
+Here is the updated code for your `README.md`. I have polished the structure, added professional badges, organized the technical details into tables, and improved the installation flow to make it look like a high-tier open-source project.
 
-### 📁 Setup Tip
-
-Before pasting this, create a folder in your project root named `public/readme/` (or just `images/`) and drop your screenshots there. Then, just update the file paths in the code below.
-
----
+You can copy and paste this directly into your file:
 
 ```markdown
-# 🛒 BuyIT – Modern E-Commerce Platform
+# 🛒 BuyIT | Full-Stack E-Commerce Solution
 
-<div align="center">
-  <img src="./public/readme/banner.png" alt="BuyIT Banner" width="100%" />
+BuyIT is a high-performance e-commerce platform built for the modern web. It features a seamless shopping experience, secure checkout, and a robust content management system.
 
-  <br />
-
-  [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-blue?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-  [![Sanity](https://img.shields.io/badge/Sanity_CMS-v3-f03e2f?style=for-the-badge&logo=sanity)](https://www.sanity.io/)
-  [![Stripe](https://img.shields.io/badge/Stripe-Payments-635bff?style=for-the-badge&logo=stripe)](https://stripe.com/)
-  [![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF?style=for-the-badge&logo=clerk)](https://clerk.com/)
-
-  **BuyIT** is a production-ready, full-stack e-commerce solution built with the MERN stack and modern serverless architecture.
-  
-  [Explore Demo](https://buy-it-silk.vercel.app) · [Report Bug](https://github.com/your-username/buy-it/issues) · [Request Feature](https://github.com/your-username/buy-it/issues)
-</div>
-
----
-
-## 📸 App Previews
-
-<div align="center">
-  <table>
-    <tr>
-      <td width="50%">
-        <p align="center"><b>Desktop View</b></p>
-        <img src="./public/readme/desktop-home.png" alt="Desktop Home" />
-      </td>
-      <td width="50%">
-        <p align="center"><b>Mobile View</b></p>
-        <img src="./public/readme/mobile-home.png" alt="Mobile Home" />
-      </td>
-    </tr>
-    <tr>
-      <td width="50%">
-        <img src="./public/readme/desktop-product.png" alt="Desktop Product" />
-      </td>
-      <td width="50%">
-        <img src="./public/readme/mobile-cart.png" alt="Mobile Cart" />
-      </td>
-    </tr>
-  </table>
-</div>
-
----
-
-## 📖 Table of Contents
-- [✨ Features](#-features)
-- [🏗️ Project Architecture](#️-project-architecture)
-- [🧩 Tech Stack](#-tech-stack)
-- [⚙️ Environment Variables](#️-environment-variables)
-- [▶️ Getting Started](#️-getting-started)
-- [🚀 Deployment](#-deployment)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://buy-it-silk.vercel.app/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Stripe](https://img.shields.io/badge/Stripe-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com/)
 
 ---
 
 ## ✨ Features
 
-- **🛍️ Dynamic Storefront**: High-performance product listings and detailed views.
-- **🛒 Real-time Cart**: Persistent shopping cart managed with **Zustand** for a seamless UX.
-- **🔐 Secure Auth**: Robust user authentication and profile management via **Clerk**.
-- **💳 Seamless Payments**: Integrated **Stripe Checkout** with webhook support.
-- **📦 Headless CMS**: Product data and inventory managed via **Sanity CMS**.
-- **📱 Fully Responsive**: Designed for all screen sizes using **Tailwind CSS**.
+* **🔐 Secure Authentication:** Managed via Clerk for a frictionless login experience.
+* **🛍️ Dynamic Storefront:** Real-time product management using Sanity CMS.
+* **💳 Global Payments:** Integrated Stripe Checkout with automated webhook handling.
+* **📱 Fully Responsive:** Optimized for mobile, tablet, and desktop views with TailwindCSS.
+* **🚀 Type Safety:** Built with TypeScript and auto-generated Sanity schemas.
+* **📑 Blog Integration:** Built-in content section for marketing and updates.
 
 ---
 
-## 🏗️ Project Architecture
+## 🛠️ Tech Stack
 
-<div align="center">
-  <img src="./public/readme/architecture-diagram.png" alt="BuyIT Workflow Diagram" width="80%" />
-  <p><i>Standard flow: User -> Next.js Frontend -> Clerk (Auth) -> Sanity (Data) -> Stripe (Payment)</i></p>
-</div>
-
----
-
-## 🧩 Tech Stack
-
-| Frontend | Backend & CMS | Tools & DevOps |
-| :--- | :--- | :--- |
-| **Next.js** (App Router) | **Sanity CMS** | **Vercel** |
-| **React 19** | **Clerk** (Auth) | **Stripe CLI** |
-| **Tailwind CSS** | **Stripe API** | **PostCSS** |
-| **Zustand** (State) | **Node.js** | **TypeScript** |
+| Component          | Technology                                   |
+| :----------------- | :------------------------------------------- |
+| **Frontend** | Next.js 15 (App Router), React, TailwindCSS  |
+| **Backend/CMS** | Sanity.io                                    |
+| **Auth** | Clerk                                        |
+| **State Mgmt** | Zustand                                      |
+| **Payments** | Stripe                                       |
+| **Deployment** | Vercel                                       |
 
 ---
 
-## ⚙️ Environment Variables
+## 📸 Screenshots
 
-To run this project, you will need to add the following variables to your `.env.local` file:
+### Home & Shopping
+| Home Page | Shop Page |
+| :---: | :---: |
+| ![Home](images/home.png) | ![Shop](images/shop.png) |
 
-```env
-# General
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+### User Experience
+| Cart & Checkout | Order History |
+| :---: | :---: |
+| ![Cart](images/cart.png) | ![Orders](images/cart.png) |
 
-# Clerk Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_pub_key
-CLERK_SECRET_KEY=your_clerk_secret_key
+---
 
-# Sanity CMS
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
-SANITY_API_READ_TOKEN=your_read_token
-SANITY_API_TOKEN=your_write_token
+## 🚀 Installation & Setup
 
-# Stripe Payments
-STRIPE_SECRET_KEY=your_stripe_secret_key
-STRIPE_WEBHOOK_SECRET=your_webhook_secret
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/NikhilG6704/BuyIT.git](https://github.com/NikhilG6704/BuyIT.git)
+cd buy-it
 
 ```
 
-> [!WARNING]
-> Never commit your `.env.local` file to GitHub. It is already included in `.gitignore`.
-
----
-
-## ▶️ Getting Started
-
-### 1. Clone & Install
+### 2. Install Dependencies
 
 ```bash
-git clone [https://github.com/your-username/buy-it.git](https://github.com/your-username/buy-it.git)
-cd buy-it
 npm install
 
 ```
 
-### 2. Stripe Webhooks (For local development)
+### 3. Environment Variables
 
-1. **Login**: `stripe login`
-2. **Listen**: `stripe listen --forward-to localhost:3000/api/webhook`
-3. **Secret**: Copy the `whsec_...` key to your `.env.local`.
+Create a `.env` file in the root directory and add the following:
 
-### 3. Run Development
+```env
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=......
+CLERK_SECRET_KEY=......
+NEXT_PUBLIC_SANITY_PROJECT_ID=......
+NEXT_PUBLIC_SANITY_DATASET=......
+SANITY_API_READ_TOKEN=......
+SANITY_API_TOKEN=......
+STRIPE_SECRET_KEY=.......
+STRIPE_WEBHOOK_SECRET=........
+
+```
+
+### 4. Run Locally
 
 ```bash
+# Generate types for Sanity
+npm run typegen
+
+# Start development server
 npm run dev
 
 ```
 
 ---
 
-## 🚀 Deployment
+## 💳 Stripe Webhooks (Local Testing)
 
-The project is optimized for **Vercel**:
+To process payments locally, you must forward webhooks to your local machine:
 
-1. Push code to GitHub.
-2. Connect repo to Vercel.
-3. Configure Environment Variables in the Vercel dashboard.
-4. Deploy!
-
----
-
-## 🧑‍💻 Author
-
-**BuyIT** — Built with ❤️ to showcase modern full-stack development.
-
-If you found this project helpful, please give it a ⭐!
+1. **Install Stripe CLI:** [Follow Instructions](https://docs.stripe.com/stripe-cli)
+2. **Login:** `stripe login`
+3. **Forward Webhooks:**
+```bash
+stripe listen --forward-to localhost:3000/api/webhook
 
 ```
 
+
+4. **Update Secret:** Copy the signing secret (`whsec_...`) into your `STRIPE_WEBHOOK_SECRET` variable.
+
 ---
 
-### Pro-tips for your images:
-1.  **Banner:** Use a tool like [Canva](https://www.canva.com) or [Figma](https://www.figma.com) to create a simple banner (1280x640px) with your logo and tech icons.
-2.  **Screenshots:** Use "CleanShot X" or "Screely" to give your screenshots nice rounded corners or backgrounds.
-3.  **GIFs:** If you want to show the checkout process, record a short GIF and place it in the "Features" section.
+## 🔗 Links
 
-**Would you like me to help you generate a list of dummy product data for your Sanity CMS to get started?**
+* **Live Demo:** [buy-it-silk.vercel.app](https://buy-it-silk.vercel.app/)
+* **Video Walkthrough:** [Google Drive Demo](https://drive.google.com/file/d/1mlh2zpJeCuC_ywcX6-ABxt-Hw3vYF4Pc/view?usp=sharing)
+
+---
+
+Developed with ❤️ by [NikhilG6704](https://www.google.com/search?q=https://github.com/NikhilG6704)
+
+```
+
+**Would you like me to help you add a "Deployment" section with specific instructions for Vercel?**
 
 ```
