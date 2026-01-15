@@ -1,181 +1,163 @@
-Here’s a **clean, professional, and eye-catching README.md** you can drop straight into your GitHub repo for **BuyIT**. It’s written to look *production-ready*, recruiter-friendly, and open-source polished.
+This version includes designated placeholders for a **Hero Banner**, **Project Screenshots**, and an **Architecture Diagram**. I have also added a "Preview" section using a table so you can show off both Desktop and Mobile views side-by-side.
+
+### 📁 Setup Tip
+
+Before pasting this, create a folder in your project root named `public/readme/` (or just `images/`) and drop your screenshots there. Then, just update the file paths in the code below.
 
 ---
 
-````md
+```markdown
 # 🛒 BuyIT – Modern E-Commerce Platform
 
-BuyIT is a **modern, fully functional e-commerce application** built from scratch using the **MERN stack**, **Next.js**, **Tailwind CSS**, **Sanity**, **Clerk**, **Stripe**, and **Vercel**.
+<div align="center">
+  <img src="./public/readme/banner.png" alt="BuyIT Banner" width="100%" />
 
-This project demonstrates how to build a **production-ready online store** with authentication, secure payments, CMS-driven products, and scalable deployment best practices.
+  <br />
+
+  [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-blue?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+  [![Sanity](https://img.shields.io/badge/Sanity_CMS-v3-f03e2f?style=for-the-badge&logo=sanity)](https://www.sanity.io/)
+  [![Stripe](https://img.shields.io/badge/Stripe-Payments-635bff?style=for-the-badge&logo=stripe)](https://stripe.com/)
+  [![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF?style=for-the-badge&logo=clerk)](https://clerk.com/)
+
+  **BuyIT** is a production-ready, full-stack e-commerce solution built with the MERN stack and modern serverless architecture.
+  
+  [Explore Demo](https://buy-it-silk.vercel.app) · [Report Bug](https://github.com/your-username/buy-it/issues) · [Request Feature](https://github.com/your-username/buy-it/issues)
+</div>
 
 ---
 
-## 🚀 Live Demo
+## 📸 App Previews
 
-🔗 **Live Website:**  
-https://buy-it-silk.vercel.app/
+<div align="center">
+  <table>
+    <tr>
+      <td width="50%">
+        <p align="center"><b>Desktop View</b></p>
+        <img src="./public/readme/desktop-home.png" alt="Desktop Home" />
+      </td>
+      <td width="50%">
+        <p align="center"><b>Mobile View</b></p>
+        <img src="./public/readme/mobile-home.png" alt="Mobile Home" />
+      </td>
+    </tr>
+    <tr>
+      <td width="50%">
+        <img src="./public/readme/desktop-product.png" alt="Desktop Product" />
+      </td>
+      <td width="50%">
+        <img src="./public/readme/mobile-cart.png" alt="Mobile Cart" />
+      </td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## 📖 Table of Contents
+- [✨ Features](#-features)
+- [🏗️ Project Architecture](#️-project-architecture)
+- [🧩 Tech Stack](#-tech-stack)
+- [⚙️ Environment Variables](#️-environment-variables)
+- [▶️ Getting Started](#️-getting-started)
+- [🚀 Deployment](#-deployment)
 
 ---
 
 ## ✨ Features
 
-- 🛍️ Product listing & product details
-- 🛒 Persistent shopping cart
-- 🔐 Secure authentication with **Clerk**
-- 💳 Stripe checkout & payment processing
-- 📦 CMS-driven product management with **Sanity**
-- ⚡ Fast, SEO-friendly **Next.js App Router**
-- 📱 Fully responsive UI with **Tailwind CSS**
-- 🔄 Global state management using **Zustand**
-- 🚀 Production-ready deployment on **Vercel**
+- **🛍️ Dynamic Storefront**: High-performance product listings and detailed views.
+- **🛒 Real-time Cart**: Persistent shopping cart managed with **Zustand** for a seamless UX.
+- **🔐 Secure Auth**: Robust user authentication and profile management via **Clerk**.
+- **💳 Seamless Payments**: Integrated **Stripe Checkout** with webhook support.
+- **📦 Headless CMS**: Product data and inventory managed via **Sanity CMS**.
+- **📱 Fully Responsive**: Designed for all screen sizes using **Tailwind CSS**.
+
+---
+
+## 🏗️ Project Architecture
+
+<div align="center">
+  <img src="./public/readme/architecture-diagram.png" alt="BuyIT Workflow Diagram" width="80%" />
+  <p><i>Standard flow: User -> Next.js Frontend -> Clerk (Auth) -> Sanity (Data) -> Stripe (Payment)</i></p>
+</div>
 
 ---
 
 ## 🧩 Tech Stack
 
-### Frontend
-- **Next.js (App Router)**
-- **React**
-- **Tailwind CSS**
-- **Zustand**
-
-### Backend & Services
-- **Node.js**
-- **MongoDB**
-- **Sanity CMS**
-- **Clerk Authentication**
-- **Stripe Payments**
-
-### DevOps & Tooling
-- **Stripe CLI**
-- **Vercel Deployment**
+| Frontend | Backend & CMS | Tools & DevOps |
+| :--- | :--- | :--- |
+| **Next.js** (App Router) | **Sanity CMS** | **Vercel** |
+| **React 19** | **Clerk** (Auth) | **Stripe CLI** |
+| **Tailwind CSS** | **Stripe API** | **PostCSS** |
+| **Zustand** (State) | **Node.js** | **TypeScript** |
 
 ---
 
 ## ⚙️ Environment Variables
 
-Create a `.env.local` file in the project root and add the following:
+To run this project, you will need to add the following variables to your `.env.local` file:
 
 ```env
+# General
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
-# Clerk
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_pub_key
+CLERK_SECRET_KEY=your_clerk_secret_key
 
-# Sanity
-NEXT_PUBLIC_SANITY_PROJECT_ID=
-NEXT_PUBLIC_SANITY_DATASET=
-SANITY_API_READ_TOKEN=
-SANITY_API_TOKEN=
+# Sanity CMS
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+SANITY_API_READ_TOKEN=your_read_token
+SANITY_API_TOKEN=your_write_token
 
-# Stripe
-STRIPE_SECRET_KEY=
-````
+# Stripe Payments
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_webhook_secret
 
-
----
-
-## 📦 Required Libraries
-
-Key dependencies used in this project:
-
-```bash
-next
-react
-tailwindcss
-zustand
-@clerk/nextjs
-stripe
-@sanity/client
 ```
 
+> [!WARNING]
+> Never commit your `.env.local` file to GitHub. It is already included in `.gitignore`.
+
 ---
 
-## ▶️ Running the Project Locally
+## ▶️ Getting Started
 
-### 1️⃣ Install Dependencies
+### 1. Clone & Install
 
 ```bash
+git clone [https://github.com/your-username/buy-it.git](https://github.com/your-username/buy-it.git)
+cd buy-it
 npm install
+
 ```
 
-### 2️⃣ Generate Sanity Types (Optional)
+### 2. Stripe Webhooks (For local development)
 
-```bash
-npm run typegen
-```
+1. **Login**: `stripe login`
+2. **Listen**: `stripe listen --forward-to localhost:3000/api/webhook`
+3. **Secret**: Copy the `whsec_...` key to your `.env.local`.
 
-### 3️⃣ Start the Development Server
+### 3. Run Development
 
 ```bash
 npm run dev
+
 ```
-
-The application will be available at:
-👉 **[http://localhost:3000](http://localhost:3000)**
-
----
-
-## 💳 Stripe Webhooks (Required for Payments)
-
-### Install Stripe CLI
-
-👉 [https://docs.stripe.com/stripe-cli](https://docs.stripe.com/stripe-cli)
-
-### Login to Stripe
-
-```bash
-stripe login
-```
-
-### Start Webhook Listener
-
-```bash
-stripe listen --forward-to localhost:3000/api/webhook
-```
-
-⚠️ Copy the generated **webhook secret** and add it to your environment variables if required.
-
----
-
-## 🧠 Sanity Setup
-
-1. Create a Sanity project
-2. Add your product schemas
-3. Set the dataset to `production`
-4. Generate API tokens
-5. Add all Sanity credentials to `.env.local`
 
 ---
 
 ## 🚀 Deployment
 
-This project is optimized for **Vercel**.
+The project is optimized for **Vercel**:
 
-```bash
-npm run build
-```
-
-**Deployment Steps:**
-
-1. Push the project to GitHub
-2. Import the repository into Vercel
-3. Add environment variables
-4. Deploy 🎉
-
----
-
-## 📌 Project Purpose
-
-BuyIT was built to demonstrate:
-
-* Real-world e-commerce architecture
-* Secure authentication & payments
-* CMS-driven content workflows
-* Scalable frontend patterns with Next.js
-* Production-ready deployment practices
+1. Push code to GitHub.
+2. Connect repo to Vercel.
+3. Configure Environment Variables in the Vercel dashboard.
+4. Deploy!
 
 ---
 
@@ -183,4 +165,17 @@ BuyIT was built to demonstrate:
 
 **BuyIT** — Built with ❤️ to showcase modern full-stack development.
 
-If you like this project, don’t forget to ⭐ the repo!
+If you found this project helpful, please give it a ⭐!
+
+```
+
+---
+
+### Pro-tips for your images:
+1.  **Banner:** Use a tool like [Canva](https://www.canva.com) or [Figma](https://www.figma.com) to create a simple banner (1280x640px) with your logo and tech icons.
+2.  **Screenshots:** Use "CleanShot X" or "Screely" to give your screenshots nice rounded corners or backgrounds.
+3.  **GIFs:** If you want to show the checkout process, record a short GIF and place it in the "Features" section.
+
+**Would you like me to help you generate a list of dummy product data for your Sanity CMS to get started?**
+
+```
